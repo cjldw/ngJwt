@@ -1,0 +1,27 @@
+<!docytpe html>
+<html>
+    <head>
+        <title>xds project</title>
+        <meta content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+        <style type="text/css">
+            * {margin: 0; padding: 0;}
+            .container {
+                width: 1100px;
+                margin: 320px auto;
+            }
+            .container h1 {
+                font-size: 40px;
+            }
+        </style>
+        <script src="js/libs/requirejs/require.js" data-main="js/bootstrap.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div ui-view>
+                <h1 class="loading">Page loading....</h1>
+            </div>
+        </div>
+    </body>
+</html>
