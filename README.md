@@ -18,3 +18,40 @@
 2. appUser.js 声明模块名称
 
 
+### 自动刷新token
+
+1. token expire then refresh automatic
+
+        
+            /*
+             * Jwt Interceptor
+             * when token expire then refresh automatic
+             */
+            jwtInterceptorProvider.tokenGetter = function(jwtHelper, $http) {
+                var jwt = $localStorageProvider.get('token');
+                if(jwt){
+                    if(jwtHelper.isTokenExpired(jwt)){
+                        console.log('token is expired', jwt);
+                        var apiUrl = GlobalConfig.apiConfig.host + '/' + GlobalConfig.apiConfig.endpoint;
+                        var refreshTokenUrl = apiUrl + '/auth/refresh';
+                        return $http({
+                            url : refreshTokenUrl,
+                            skipAuthorization : true,
+                            method: 'GET',
+                            headers : { Authorization : 'Bearer '+ jwt},
+                        }).then(function(response){
+                            var newToken = response.data.data.token;
+                            $localStorageProvider.set('token', newToken);
+                            return newToken;
+                        },function(response){
+                            $localStorageProvider.set('token', '');
+                        });
+                    }else{
+                        return jwt;
+                    }
+                }
+
+            }
+
+
+
