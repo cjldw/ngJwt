@@ -15,7 +15,11 @@
             domain: 'xds.local',
             apiConfig: {
                 host: 'http://xds.local',
-                endpoint: 'v1'
+                endpoint: 'v1',
+                moduleVersion: {
+                    user: 'bv1',
+                    login: 'bv1'
+                }
             }
         }
     })

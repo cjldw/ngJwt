@@ -15,35 +15,19 @@
         /* application global constant variable */
         app.constant('GlobalConfig', GlobalConfig);
 
-        /*
-         * appHttpInterceptor
-         * automatic add Authorization headers
-         */
-        app.factory("appHttpInterceptor", function($q, $localStorage, $location){
-            var appHttpInterceptor = {
-                request: function(config) {
-                    if($localStorage.token) {
-                        config.headers = {
-                            Authorization: 'Bearer ' + $localStorage.token
-                        }
-                    }
-                    return config;
-                }
-            };
-            return appHttpInterceptor;
-        });
-
         /* configure app runtime options */
         app.config(function($interpolateProvider, $urlRouterProvider, $stateProvider,
                             $localStorageProvider, $httpProvider, jwtInterceptorProvider, GlobalConfig){
+
             /*
-             *
+             * application router configure
+             */
+            $urlRouterProvider.otherwise("/home");
+
+            /*
+             * set localStorage prefix
              */
             $localStorageProvider.setKeyPrefix('app_');
-            /*
-             * Inject appHttpInterceptor
-             */
-            $httpProvider.interceptors.push('appHttpInterceptor');
 
             /*
              * if use laravel template, please enabled below two line
@@ -53,11 +37,6 @@
              */
 
             /*
-             * application router configure
-             */
-            $urlRouterProvider.otherwise("/home");
-
-            /*
              * Jwt Interceptor
              * when token expire then refresh automatic
              */
@@ -65,6 +44,7 @@
                 var jwt = $localStorageProvider.get('token');
                 if(jwt){
                     if(jwtHelper.isTokenExpired(jwt)){
+                        console.log('token is expired', jwt);
                         var apiUrl = GlobalConfig.apiConfig.host + '/' + GlobalConfig.apiConfig.endpoint;
                         var refreshTokenUrl = apiUrl + '/auth/refresh';
                         return $http({
@@ -73,8 +53,9 @@
                             method: 'GET',
                             headers : { Authorization : 'Bearer '+ jwt},
                         }).then(function(response){
-                            $localStorageProvider.set('token',response.data.token);
-                            return response.data.token;
+                            var newToken = response.data.data.token;
+                            $localStorageProvider.set('token', newToken);
+                            return newToken;
                         },function(response){
                             $localStorageProvider.set('token', '');
                         });
@@ -82,6 +63,7 @@
                         return jwt;
                     }
                 }
+
             }
 
             /*
@@ -102,6 +84,10 @@
                 if(! $localStorage.token) {
                     $location.path("/login");
                 }
+            });
+
+            $rootScope.$on("unauthenticated", function(evt){
+                $location.path("/login");
             });
         });
 

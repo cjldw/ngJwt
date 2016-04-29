@@ -13,7 +13,7 @@
             "angularCookie": "libs/angular-cookies/angular-cookies.min",
             "angularUiRouter": "libs/angular-ui-router/release/angular-ui-router.min",
             "angularAnimate": "libs/angular-animate/angular-animate.min",
-            "angularJwt": "libs/angular-jwt/dist/angular-jwt.min",
+            "angularJwt": "libs/angular-jwt/dist/angular-jwt",
             "angularStorage": "libs/ngstorage/ngStorage"
         },
 

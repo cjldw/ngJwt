@@ -3,7 +3,8 @@
     define(["../appShared", "_constants"], function(appShared, GlobalConfig){
         return appShared.factory("userSrv", ["$http", "$log", function($http, $log){
             var userSrv = {};
-            var apiUrl = GlobalConfig.apiConfig.host + "/" + GlobalConfig.apiConfig.endpoint;
+            var apiUrl = GlobalConfig.apiConfig.host + "/" + GlobalConfig.apiConfig.endpoint + 
+                "/" + GlobalConfig.apiConfig.moduleVersion.user;
 
             /* fetch users data from server */
             userSrv.getUsers = function(){
