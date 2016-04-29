@@ -18,3 +18,4 @@
 2. appUser.js 声明模块名称
 
 
+### 添加jwt过期自动更新token jwtInterceptor http拦截器
