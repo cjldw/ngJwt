@@ -17,12 +17,9 @@
 1. 模块下router.js为该模块前端路由, 所有路由都配置在此文件中
 2. appUser.js 声明模块名称
 
-
-### 自动刷新token
-
+### 添加jwt过期自动更新token jwtInterceptor http拦截器
 1. token expire then refresh automatic
 
-        
             /*
              * Jwt Interceptor
              * when token expire then refresh automatic
